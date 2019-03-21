@@ -2,21 +2,12 @@ import React, { Component } from 'react';
 
 import { connect } from "react-redux";
 import uuidv1 from "uuid";
-import { addArticle } from "../actions/index";
+import { addArticle,forbiddenWord } from "./js/actions/index";
 
 import logo from './logo.svg';
 import './App.css';
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addArticle: article => dispatch(addArticle(article))
-  };
-}
-const mapStateToProps = state => {
-  return { articles: state.articles };
-};
-
-class App extends Component {
+class AppComponent extends Component {
   constructor() {
     super();
     this.state = {
@@ -33,33 +24,19 @@ class App extends Component {
     const { title } = this.state;
     const id = uuidv1();
     this.props.addArticle({ title, id });
+    // this.props.forbiddenWord({ message:"" });
     this.setState({ title: "" });
   }
 
   async componentDidMount(){
-
-    let baseUrl='https://my-website.com/api_v1/',
-    headers= {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'api':'API_KEY'
-    }
-    let url=`${baseUrl}getCats/0`,
-        body=`item_code=1&item_active=2`;
-      console.log('url',url,body);//return;
-      let response = await fetch(url, {
-           mode: 'cors',
-          method: 'GET',
-          headers: headers
-      })
-      let responseJson = await response.json()
-      console.log('categories ',responseJson)
       await this.setState({
         isLoading:false
       })
   }
 
   render() {
+    // console.log(this.props.articles)
+    // console.log(this.props.message)
     return (
       <div className="App">
         <header className="App-header">
@@ -67,13 +44,18 @@ class App extends Component {
           <p>
             Edit <code>src/App.js</code> and save to reload.
           </p>
+          {this.props.message?(
+            <p>
+              Edit <code>{this.props.message}</code>.
+            </p>
+          ):null}
           <a
             className="App-link"
             href="https://reactjs.org"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn React
+            Learn React {this.props.articles.length}
           </a>
           <form onSubmit={this.handleSubmit}>
             <div className="form-group">
@@ -82,7 +64,7 @@ class App extends Component {
                 type="text"
                 className="form-control"
                 id="title"
-                value={title}
+                value={this.state.title}
                 onChange={this.handleChange}
               />
             </div>
@@ -96,4 +78,19 @@ class App extends Component {
   }
 }
 
+
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addArticle: article => dispatch(addArticle(article))//,
+    //forbiddenWord: message => dispatch(forbiddenWord({message:message})),
+  };
+}
+const mapStateToProps = state => {
+  return { 
+    articles: state.articles,
+    message:state.message
+  };
+};
+const App = connect(mapStateToProps, mapDispatchToProps)(AppComponent);
 export default App;
