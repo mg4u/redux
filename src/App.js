@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 
 import { connect } from "react-redux";
 import uuidv1 from "uuid";
-import { addArticle,forbiddenWord } from "./js/actions/index";
+import { addArticle,forbiddenWord,getArticles,login,doLogin } from "./js/actions/index";
 
 import logo from './logo.svg';
 import './App.css';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 class AppComponent extends Component {
   constructor() {
     super();
     this.state = {
-      title: ""
+      title: "",
+      email:"",
+      password:""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,16 +21,25 @@ class AppComponent extends Component {
   handleChange(event) {
     this.setState({ [event.target.id]: event.target.value });
   }
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
-    const { title } = this.state;
+    const { title,email,password } = this.state;
     const id = uuidv1();
-    this.props.addArticle({ title, id });
+    console.log('title,email,password',title,email,password)
+    // await this.props.addArticle({ title, id });
+    await this.props.login({ email,password });
+    if(!this.props.message){
+      await this.props.doLogin({ email,password });
+    }
+    // console.log(this.props.articles.length)
     // this.props.forbiddenWord({ message:"" });
-    this.setState({ title: "" });
+    // await this.setState({ title: "" });
   }
 
   async componentDidMount(){
+      console.log('componentDidMount')
+      await this.props.getArticles();
+      console.log(this.props.articles.length)
       await this.setState({
         isLoading:false
       })
@@ -41,30 +52,32 @@ class AppComponent extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
+          <p className="App-link">
+            Enter your login info
           </p>
           {this.props.message?(
-            <p>
-              Edit <code>{this.props.message}</code>.
+            <p className="alert alert-danger">
+               <code>{this.props.message}</code>.
             </p>
           ):null}
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React {this.props.articles.length}
-          </a>
           <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="title">Title</label>
+            <div className="form-group row">
+              <label htmlFor="email">Email</label>
               <input
                 type="text"
                 className="form-control"
-                id="title"
-                value={this.state.title}
+                id="email"
+                value={this.state.email}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="form-group row ">
+              <label htmlFor="password">Password</label>
+              <input
+                type="text"
+                className="form-control"
+                id="password"
+                value={this.state.password}
                 onChange={this.handleChange}
               />
             </div>
@@ -82,13 +95,17 @@ class AppComponent extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addArticle: article => dispatch(addArticle(article))//,
+    addArticle: article => dispatch(addArticle(article)),
+    login: ({email,password}) => dispatch(login({email,password})),
+    doLogin: ({email,password}) => dispatch(doLogin({email,password})),
+    getArticles: () => dispatch(getArticles())//,
     //forbiddenWord: message => dispatch(forbiddenWord({message:message})),
   };
 }
 const mapStateToProps = state => {
   return { 
     articles: state.articles,
+    login_data: state.login_data,
     message:state.message
   };
 };
