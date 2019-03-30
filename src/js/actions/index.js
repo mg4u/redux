@@ -7,7 +7,7 @@ export function login(payload) {
 export function doLogin(payload) {
 	// console.log('headers',headers)
   return function(dispatch) {
-    return fetch(baseUrl+"login",{
+    return fetch(baseUrl+"cashier",{
     	headers:headers,
     	method:'POST'
     })
@@ -36,3 +36,58 @@ export function addArticle(payload) {
 export function forbiddenWord(payload) {
   return { type:ERROR, payload }
 };
+
+function async getRequest(option){
+  return async (dispatch) => {
+      console.log("baseUrl+'/cashier'",baseUrl+'cashier',email,password)
+      try{
+        let data=options.data?options.data:{
+          email: email,
+          password: password,
+        },
+        method=options.method?options.method:'post',
+        config={
+          method:method,
+          baseURL:baseUrl,
+          url:options.url?options.url:'cashier',
+          headers: headers,
+          onUploadProgress: function (progressEvent) {
+            console.log('onUploadProgress progressEvent ',progressEvent)
+            // Do whatever you want with the native progress event
+          },
+          onDownloadProgress: function (progressEvent) {
+            console.log('onDownloadProgress progressEvent ',progressEvent)
+            // Do whatever you want with the native progress event
+          },
+        }
+        if(method=='get'){
+          config.params=data
+        }else{
+          config.data=data
+        }
+        console.log(config)
+        const request= await axios(config);
+        console.log('request',request)
+        /*then(function (response){
+          console.log(response);
+            RNProgressHud.dismiss()
+           if(response.status==200){
+            console.log(response.data.data);
+            console.log(response.data.api_token);
+             // dispatch({type:DO_LOGIN_SUCCESS,payload:{userdata:response.data.info}})
+             dispatch({type:DO_LOGIN_SUCCESS,payload:{user_data:response.data.info}})
+             // dispatch({type:API_TOKEN,payload:{api_token:response.api_token})
+             
+           }else if(response.error&&response.error[0]&&response.error[0].EmailOrPassword){
+             ErrorAction(dispatch,response.error[0].EmailOrPassword);
+           }else{
+             ErrorAction(dispatch,L('pleaseInsertAllInfo'));
+           }
+        }).*/
+      } catch (error) {
+        console.log('error',error.response)
+        // handle error
+        alert('Request error')
+      }
+    };
+}

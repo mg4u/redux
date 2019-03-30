@@ -6,12 +6,12 @@ const initialState = {
 };
 
 function rootReducer(state = initialState, action) {
-  	console.log(' reducer login',action.type,action)
   	state.message=''
   if (action.type === LOGIN) {
     return {...state,...action.payload}
   }
   if (action.type === DO_LOGIN) {
+  	console.log(' reducer do login',action.type,action)
     return {...state,...action.payload}
   }
   if (action.type === GET_ARTICLES) {

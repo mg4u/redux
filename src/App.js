@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import uuidv1 from "uuid";
 import { addArticle,forbiddenWord,getArticles,login,doLogin } from "./js/actions/index";
+import { LoginAccount } from "./js/constants/action-types";
 
 import logo from './logo.svg';
 import './App.css';
@@ -12,8 +13,8 @@ class AppComponent extends Component {
     super();
     this.state = {
       title: "",
-      email:"",
-      password:""
+      email:LoginAccount.email,
+      password:LoginAccount.password
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

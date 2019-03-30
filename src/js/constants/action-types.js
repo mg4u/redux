@@ -1,11 +1,13 @@
 // src/js/constants/action-types.js
-export const baseUrl='https://ri7la-tech.com/rehlatech_sep/cruise/index.php/ar/mobile/'
+export const baseUrl='http://t8.someotherhost.com/inventory/public/api/v1/'
 export const headers= {
 	'Content-Type': 'application/json',
-	'Accept': 'application/json',
-	'api':'9660c173205efca195c9c7d2d579b054'
+	'Accept': 'application/json'
 }
-
+export const LoginAccount={
+	"email":"cashier-gerhold.rhianna@example.org",
+	"password":"cashier-gerhold.rhianna@example.org"
+}
 export const LOGIN = "LOGIN";
 export const DO_LOGIN = "DO_LOGIN";
 export const GET_ARTICLES = "GET_ARTICLES";
