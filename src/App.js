@@ -9,10 +9,9 @@ import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 class AppComponent extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      title: "",
       email:LoginAccount.email,
       password:LoginAccount.password
     };
@@ -24,10 +23,10 @@ class AppComponent extends Component {
   }
   async handleSubmit(event) {
     event.preventDefault();
-    const { title,email,password } = this.state;
+    const { email,password } = this.state;
     const id = uuidv1();
-    console.log('title,email,password',title,email,password)
-    // await this.props.addArticle({ title, id });
+    console.log('email,password',email,password)
+    // await this.props.addArticle({  id });
     await this.props.login({ email,password });
     if(!this.props.message){
       await this.props.doLogin({ email,password });
@@ -39,13 +38,20 @@ class AppComponent extends Component {
 
   async componentDidMount(){
       console.log('componentDidMount')
-      await this.props.getArticles();
-      console.log(this.props.articles.length)
+      // await this.props.getArticles();
+      // console.log(this.props.articles.length)
       await this.setState({
         isLoading:false
       })
   }
 
+  async componentDidUpdate(prevProps, prevState) {
+    console.log('componentDidUpdate prevProps',prevProps)
+    if(this.props.logged){
+      console.log('You have logged in')    
+    }
+  }
+  
   render() {
     // console.log(this.props.articles)
     // console.log(this.props.message)
