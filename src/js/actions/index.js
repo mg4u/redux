@@ -1,4 +1,6 @@
 // src/js/actions/index.js
+import axios from 'axios';
+
 import { baseUrl,headers,ADD_ARTICLE,ERROR,GET_ARTICLES,LOGIN,DO_LOGIN } from "../constants/action-types";
 
 export function login(payload) {
@@ -37,14 +39,14 @@ export function forbiddenWord(payload) {
   return { type:ERROR, payload }
 };
 
-function async getRequest(option){
+let getRequest=async (options)=>{
   return async (dispatch) => {
-      console.log("baseUrl+'/cashier'",baseUrl+'cashier',email,password)
+    if(typeof axios==undefined){
+      return false
+    }
+      console.log("baseUrl+'/cashier'",baseUrl+'cashier')
       try{
-        let data=options.data?options.data:{
-          email: email,
-          password: password,
-        },
+        let data=options.data?options.data:{},
         method=options.method?options.method:'post',
         config={
           method:method,
