@@ -1,7 +1,7 @@
 // src/js/actions/index.js
 import axios from 'axios';
 
-import { baseUrl,headers,ADD_ARTICLE,ERROR,GET_ARTICLES,LOGIN,DO_LOGIN } from "../constants/action-types";
+import { baseUrl,headers,ADD_ARTICLE,ERROR,GET_ARTICLES,LOGIN,DO_LOGIN,DO_LOGIN_SUCCESS } from "../constants/action-types";
 
 export function login(payload) {
   return { type:LOGIN, payload }

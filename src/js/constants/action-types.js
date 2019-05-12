@@ -10,6 +10,7 @@ export const LoginAccount={
 }
 export const LOGIN = "LOGIN";
 export const DO_LOGIN = "DO_LOGIN";
+export const DO_LOGIN_SUCCESS = "DO_LOGIN_SUCCESS";
 export const GET_ARTICLES = "GET_ARTICLES";
 export const ADD_ARTICLE = "ADD_ARTICLE";
 export const ERROR = "ERROR";
