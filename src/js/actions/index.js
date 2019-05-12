@@ -6,7 +6,27 @@ import { baseUrl,headers,ADD_ARTICLE,ERROR,GET_ARTICLES,LOGIN,DO_LOGIN } from ".
 export function login(payload) {
   return { type:LOGIN, payload }
 };
-export function doLogin(payload) {
+export function doLogin(email,password){
+  let data={
+    email: email,
+    password: password,
+  },
+  options={
+    data:data,
+    method:'post',
+    url:'login'
+  }
+  return  async (dispatch)=>{
+    let response=await PerformRequest(dispatch,options)
+    console.log('do login response',response.data)
+    if(response.data){
+      dispatch({type:DO_LOGIN_SUCCESS,payload:{...{logged:true},...response.data}})
+    }
+    // console.log(Store.getState().auth.api_token)
+  }
+
+}
+export function doLoginFetch(payload) {
 	console.log('headers',headers)
   return function(dispatch) {
     return fetch(baseUrl+"cashier",{

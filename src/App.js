@@ -29,7 +29,7 @@ class AppComponent extends Component {
     // await this.props.addArticle({  id });
     await this.props.login({ email,password });
     if(!this.props.message){
-      await this.props.doLogin({ email,password });
+      await this.props.doLogin(email,password);
     }
     // console.log(this.props.articles.length)
     // this.props.forbiddenWord({ message:"" });
@@ -104,7 +104,7 @@ function mapDispatchToProps(dispatch) {
   return {
     addArticle: article => dispatch(addArticle(article)),
     login: ({email,password}) => dispatch(login({email,password})),
-    doLogin: ({email,password}) => dispatch(doLogin({email,password})),
+    doLogin: (email,password) => dispatch(doLogin(email,password)),
     getArticles: () => dispatch(getArticles())//,
     //forbiddenWord: message => dispatch(forbiddenWord({message:message})),
   };
