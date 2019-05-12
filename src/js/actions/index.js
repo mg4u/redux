@@ -7,7 +7,7 @@ export function login(payload) {
   return { type:LOGIN, payload }
 };
 export function doLogin(payload) {
-	// console.log('headers',headers)
+	console.log('headers',headers)
   return function(dispatch) {
     return fetch(baseUrl+"cashier",{
     	headers:headers,
