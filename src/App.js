@@ -8,7 +8,7 @@ import { LoginAccount } from "./js/constants/action-types";
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-class AppComponent extends Component {
+export class AppComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
