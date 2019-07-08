@@ -17,7 +17,7 @@ export function doLogin(email,password){
     url:'login'
   }
   return  async (dispatch)=>{
-    let response=await PerformRequest(dispatch,options)
+    let response=await getRequest(dispatch,options)
     console.log('do login response',response.data)
     if(response.data){
       dispatch({type:DO_LOGIN_SUCCESS,payload:{...{logged:true},...response.data}})
